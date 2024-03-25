@@ -1,4 +1,3 @@
-# USE_MODELSCOPE_HUB=1 CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
 accelerate launch src/train_bash.py \
     --ddp_timeout 18000000 \
     --stage sft \
