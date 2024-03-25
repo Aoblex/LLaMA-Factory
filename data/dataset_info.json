@@ -8,6 +8,9 @@
       "history": "history"
     }
   },
+  "statchat_identity": {
+    "file_name": "statchat_dataset.json"
+  },
   "deeplearning_dataset": {
     "file_name": "deeplearning_dataset.json",
     "columns": {
