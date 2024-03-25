@@ -9,7 +9,7 @@
     }
   },
   "statchat_identity": {
-    "file_name": "statchat_dataset.json"
+    "file_name": "statchat_identify.json"
   },
   "deeplearning_dataset": {
     "file_name": "deeplearning_dataset.json",
