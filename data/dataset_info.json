@@ -1,6 +1,60 @@
 {
+  "statistics_dataset": {
+    "file_name": "statistics_dataset.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
+  "deeplearning_dataset": {
+    "file_name": "deeplearning_dataset.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
+  "mathematical_statistics_dataset": {
+    "file_name": "mathematical_statistics_dataset.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
+  "machine_learning_dataset": {
+    "file_name": "machine_learning_dataset.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
+  "python-evol": {
+    "file_name": "python-evol.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output",
+      "history": "history"
+    }
+  },
   "statchat_dataset": {
     "file_name": "statchat_dataset.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
+  "finance_dataset": {
+    "file_name": "finance_dataset.json",
     "columns": {
       "prompt": "prompt",
       "query": "query",
