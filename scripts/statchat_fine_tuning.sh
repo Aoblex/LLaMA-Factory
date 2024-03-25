@@ -1,0 +1,20 @@
+USE_MODELSCOPE_HUB=1 accelerate launch --config_file config.yaml src/train_bash.py \
+    --cache_dir models \
+    --stage sft \
+    --do_train \
+    --model_name_or_path ZhipuAI/chatglm3-6b \
+    --dataset statchat_dataset \
+    --template default \
+    --finetuning_type lora \
+    --lora_target query_key_value \
+    --output_dir saves/statchat \
+    --overwrite_output_dir \
+    --per_device_train_batch_size 1 \
+    --gradient_accumulation_steps 4 \
+    --lr_scheduler_type cosine \
+    --logging_steps 10 \
+    --save_steps 1000 \
+    --learning_rate 5e-4 \
+    --num_train_epochs 3.0 \
+    --plot_loss \
+    --fp16
