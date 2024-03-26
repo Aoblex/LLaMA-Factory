@@ -4,7 +4,7 @@ accelerate launch src/train_bash.py \
     --do_predict \
     --model_name_or_path /data/models/Baichuan2-13B-chat-v2 \
     --adapter_name_or_path saves/statchat/lora \
-    --dataset statchat_identity,statistics_dataset,deeplearning_dataset,mathematical_statistics_dataset,machine_learning_dataset \ \
+    --dataset statchat_identity,statistics_dataset,deeplearning_dataset,mathematical_statistics_dataset,machine_learning_dataset \
     --dataset_dir data \
     --template default \
     --finetuning_type lora \
