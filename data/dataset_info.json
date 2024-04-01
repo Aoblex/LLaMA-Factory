@@ -1,4 +1,16 @@
 {
+  "statchat_identity": {
+    "file_name": "statchat_identify.json"
+  },
+  "knowledge_dataset": {
+    "file_name": "knowledge_dataset.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
   "statistics_dataset": {
     "file_name": "statistics_dataset.json",
     "columns": {
@@ -7,9 +19,6 @@
       "response": "response",
       "history": "history"
     }
-  },
-  "statchat_identity": {
-    "file_name": "statchat_identify.json"
   },
   "deeplearning_dataset": {
     "file_name": "deeplearning_dataset.json",
