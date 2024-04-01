@@ -8,7 +8,7 @@ accelerate launch src/train_bash.py \
     --template default \
     --finetuning_type lora \
     --lora_target W_pack \
-    --output_dir saves/statchat/lora \
+    --output_dir saves/statchat/lora-v2 \
     --overwrite_output_dir \
     --overwrite_cache \
     --per_device_train_batch_size 8 \
