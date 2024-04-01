@@ -1,0 +1,3 @@
+[submodule "statchat-data"]
+	path = statchat-data
+	url = git@github.com:Aoblex/statchat-data
