@@ -1,5 +1,6 @@
 models/
 test.ipynb
+text_output.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
