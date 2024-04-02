@@ -8,7 +8,7 @@ accelerate launch src/train_bash.py \
     --template default \
     --finetuning_type lora \
     --lora_target W_pack \
-    --output_dir saves/statchat/lora-v3 \
+    --output_dir saves/statchat/lora-v4 \
     --overwrite_output_dir \
     --overwrite_cache \
     --per_device_train_batch_size 8 \
@@ -16,9 +16,10 @@ accelerate launch src/train_bash.py \
     --lr_scheduler_type cosine \
     --logging_steps 10 \
     --save_steps 1000 \
-    --learning_rate 1e-3 \
-    --num_train_epochs 4.0 \
+    --learning_rate 6e-4 \
+    --num_train_epochs 3.0 \
     --plot_loss \
-    --lora_rank 16 \
+    --lora_rank 8 \
+    --lora_alpha 12 \
     --fp16
     
