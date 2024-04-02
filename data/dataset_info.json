@@ -2,6 +2,25 @@
   "statchat_identity": {
     "file_name": "statchat_identify.json"
   },
+  "statchat_KG": {
+    "file_name": "statchat_KG.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    }
+  },
+  "statchat_KC": {
+    "file_name": "statchat_KC.json",
+    "columns": {
+      "prompt": "prompt",
+      "query": "query",
+      "response": "response",
+      "history": "history"
+    },
+    "ranking": true
+  },
   "knowledge_dataset": {
     "file_name": "knowledge_dataset.json",
     "columns": {
