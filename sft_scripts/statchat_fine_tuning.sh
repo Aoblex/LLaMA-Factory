@@ -1,62 +1,85 @@
-#!/bin/bash
-cd statchat-data
-python ./src/rewrite_triplets.py --output_path datasets/know_tuning/statchat_triplets.json \
-                                 --stable_temperature 0.01 \
-                                 --unstable_temperature 0.3 \
+with_book=$1
 
-python ./src/export_triplets.py
-cp datasets/fine_tuning_data/statchat_KC.json ../data/statchat_KC.json
-cp datasets/fine_tuning_data/statchat_KG.json ../data/statchat_KG.json
-cd ..
+dpo_datasets="statchat_KC"
+book_datasets="statistics_dataset,mathematical_statistics_dataset,deeplearning_dataset,machine_learning_dataset"
 
-accelerate launch src/train_bash.py \
-    --ddp_timeout 18000000 \
+if [ $with_book = true ]; then
+    sft_datasets="statchat_identity,statchat_KG,$book_datasets"
+    sft_model="/data/models/StatChat-KnowTuning-sft-book"
+    sft_lora_dir="saves/statchat/knowtuning/sft-book"
+else
+    sft_datasets="statchat_identity,statchat_KG"
+    sft_model="/data/models/StatChat-KnowTuning-sft"
+    sft_lora_dir="saves/statchat/knowtuning/sft"
+fi
+
+base_model="/data/models/Baichuan2-13B-chat"
+dpo_lora_dir="saves/statchat/knowtuning/dpo"
+
+CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --stage sft \
     --do_train \
-    --model_name_or_path /data/models/Baichuan2-13B-chat \
-    --dataset statchat_identity,statchat_KG \
+    --model_name_or_path $base_model \
+    --dataset $sft_datasets \
+    --dataset_dir data \
     --template default \
     --finetuning_type lora \
     --lora_target W_pack \
-    --output_dir saves/statchat/knowtuning/sft \
-    --overwrite_output_dir \
+    --output_dir $sft_lora_dir \
     --overwrite_cache \
-    --per_device_train_batch_size 8 \
+    --overwrite_output_dir \
+    --cutoff_len 2048 \
+    --preprocessing_num_workers 16 \
+    --per_device_train_batch_size 1 \
     --gradient_accumulation_steps 4 \
     --lr_scheduler_type cosine \
-    --logging_steps 10 \
-    --save_steps 1000 \
-    --learning_rate 5e-5 \
-    --num_train_epochs 3.0 \
+    --logging_steps 5 \
+    --learning_rate 5e-4 \
+    --num_train_epochs 5.0 \
     --plot_loss \
-    --fp16 \
+    --fp16
+
+CUDA_VISIBLE_DEVICES=0 python src/export_model.py \
+    --model_name_or_path $base_model \
+    --adapter_name_or_path $sft_lora_dir \
+    --template default \
+    --finetuning_type lora \
+    --export_dir $sft_model \
+    --export_size 2 \
+    --export_legacy_format False
 
 CUDA_VISIBLE_DEVICES=0 python src/train_bash.py \
     --stage dpo \
     --do_train \
-    --model_name_or_path /data/models/Baichuan2-13B-chat \
-    --adapter_name_or_path saves/statchat/knowtuning/sft \
+    --model_name_or_path $sft_model \
     --create_new_adapter \
-    --dataset statchat_KC \
+    --dataset $dpo_datasets \
     --template default \
     --finetuning_type lora \
     --lora_target W_pack \
-    --output_dir saves/statchat/knowtuning/dpo \
+    --output_dir $dpo_lora_dir \
     --overwrite_cache \
     --overwrite_output_dir \
     --preprocessing_num_workers 16 \
     --per_device_train_batch_size 1 \
-    --gradient_accumulation_steps 8 \
+    --gradient_accumulation_steps 4 \
     --lr_scheduler_type cosine \
-    --logging_steps 10 \
+    --logging_steps 5 \
     --warmup_steps 20 \
     --save_steps 100 \
-    --eval_steps 100 \
-    --load_best_model_at_end \
-    --learning_rate 1e-5 \
+    --learning_rate 2e-5 \
     --num_train_epochs 1.0 \
     --dpo_ftx 1.0 \
     --plot_loss \
     --fp16
+
+CUDA_VISIBLE_DEVICES=0 python src/export_model.py \
+    --model_name_or_path $sft_model \
+    --adapter_name_or_path $dpo_lora_dir \
+    --template default \
+    --finetuning_type lora \
+    --export_dir $sft_dpo_model \
+    --export_size 2 \
+    --export_legacy_format False
 
 python test_output.py
